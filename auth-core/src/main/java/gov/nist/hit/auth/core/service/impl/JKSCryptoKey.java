@@ -1,0 +1,48 @@
+package gov.nist.hit.auth.core.service.impl;
+
+import gov.nist.hit.auth.core.service.CryptoKey;
+
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.cert.Certificate;
+
+public class JKSCryptoKey implements CryptoKey {
+
+	PrivateKey privateKey;
+	PublicKey publicKey;
+
+	public JKSCryptoKey(String jks, String keyAlias, String storePassword, String keyPassword) throws Exception {
+		this(Files.newInputStream(new File(jks).toPath()), keyAlias, storePassword, keyPassword);
+	}
+
+	public JKSCryptoKey(InputStream jks, String keyAlias, String storePassword, String keyPassword) throws Exception {
+		KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+		keystore.load(jks, storePassword.toCharArray());
+
+		Certificate cert = keystore.getCertificate(keyAlias);
+		// Get public key
+		this.publicKey = cert.getPublicKey();
+
+		Key key = keystore.getKey(keyAlias, keyPassword.toCharArray());
+		if (key instanceof PrivateKey) {
+			this.privateKey = (PrivateKey) key;
+		} else {
+			throw new Exception("Key "+ keyAlias + " in JKS " + jks + " is not an RSA private key");
+		}
+	}
+
+	@Override
+	public PrivateKey getPrivateKey() {
+		return privateKey;
+	}
+
+	@Override
+	public PublicKey getPublicKey() {
+		return publicKey;
+	}
+}

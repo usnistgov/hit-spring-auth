@@ -1,0 +1,30 @@
+hit:
+  auth:
+    role:
+      default: "REGULAR"
+    cookie:
+      name: "auth-demo"
+      duration-minutes: 10
+
+spring:
+  jmx:
+    enabled: false
+  security:
+    account:
+      role:
+        default: "REGULAR"
+
+  main:
+    allow-circular-references: true
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG
+db:
+  host: "127.0.0.1"
+  port: 27017
+  name: "auth-demo"
+
