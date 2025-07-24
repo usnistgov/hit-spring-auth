@@ -84,7 +84,7 @@ public class HITAuthenticationConfigurer<E extends HITToolPrincipal, T extends H
 				http.addFilterAfter(new LogoutFilter(
 						configurer.authenticationService,
 						logoutUrl
-				), AuthorizationFilter.class);
+				), UsernamePasswordAuthenticationFilter.class);
 			}
 
 			if (addPasswordLoginFilter) {

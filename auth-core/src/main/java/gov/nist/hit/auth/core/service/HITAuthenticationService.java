@@ -99,12 +99,14 @@ public abstract class HITAuthenticationService<E extends HITToolPrincipal, T ext
 	}
 
 	public E createPrincipal(T account) {
-		E principal = account.getPrincipal();
+		E principal = toUserPrincipal(account);
 		if(userPreRequirementManager != null) {
 			userPreRequirementManager.setUserPreRequirements(account, principal);
 		}
 		return principal;
 	}
+
+	public abstract E toUserPrincipal(T account);
 
 	public Cookie createAuthCookieWithDefaultDuration(HITToolPrincipal principal) throws Exception {
 		return this.createAuthCookie(principal, new Date(System.currentTimeMillis() + COOKIE_MAX_AGE_MS));
