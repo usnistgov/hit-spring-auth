@@ -129,6 +129,7 @@ public abstract class HITAuthenticationService<E extends HITToolPrincipal, T ext
 		Cookie authCookie = new Cookie(COOKIE_NAME, JWT);
 		authCookie.setPath("/");
 		authCookie.setMaxAge(duration);
+		authCookie.setAttribute("SameSite", "Strict");
 		authCookie.setHttpOnly(true);
 
 		return authCookie;

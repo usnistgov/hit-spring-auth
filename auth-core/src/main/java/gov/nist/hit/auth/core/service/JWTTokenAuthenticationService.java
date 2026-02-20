@@ -64,6 +64,7 @@ public class JWTTokenAuthenticationService<E extends HITToolPrincipal, T extends
 		authCookie.setPath("/");
 		authCookie.setMaxAge(0);
 		authCookie.setHttpOnly(true);
+		authCookie.setAttribute("SameSite", "Strict");
 		response.addCookie(authCookie);
 	}
 }
