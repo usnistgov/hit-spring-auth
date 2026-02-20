@@ -5,10 +5,7 @@ import gov.nist.hit.auth.core.model.HITToolPrincipal;
 import gov.nist.hit.auth.core.service.CryptoKey;
 import gov.nist.hit.auth.core.service.HITAuthenticationService;
 import gov.nist.hit.auth.core.service.UserPreRequirementManager;
-import gov.nist.hit.auth.demo.model.AckStatus;
-import gov.nist.hit.auth.demo.model.OpAck;
-import gov.nist.hit.auth.demo.model.User;
-import gov.nist.hit.auth.demo.model.UserInfo;
+import gov.nist.hit.auth.demo.model.*;
 import gov.nist.hit.auth.demo.repository.UserRepository;
 import io.jsonwebtoken.*;
 import jakarta.servlet.ServletException;
@@ -20,6 +17,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -77,5 +75,14 @@ public class DemoAuthenticationService extends HITAuthenticationService<UserInfo
 		OpAck<HITToolPrincipal> userOpAck = new OpAck<>(AckStatus.SUCCESS, "Login Success", "LOGIN", null);
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.writeValue(response.getWriter(), userOpAck);
+	}
+
+	@Override
+	public UserInfo toUserPrincipal(User account) {
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUsername(account.getUsername());
+		userInfo.setId(account.getId());
+		userInfo.setRoles(account.getRoles().stream().map(UserRole::getRole).collect(Collectors.toSet()));
+		return userInfo;
 	}
 }

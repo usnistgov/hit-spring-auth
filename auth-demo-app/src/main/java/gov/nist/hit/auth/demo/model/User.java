@@ -95,7 +95,6 @@ public class User implements HITToolUser<UserInfo> {
 		this.activePasswordLogin = activePasswordLogin;
 	}
 
-	@Override
 	public UserInfo getPrincipal() {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUsername(username);
