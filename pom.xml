@@ -22,6 +22,17 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>3.4.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 	<modules>
 		<module>auth-core</module>
 		<module>auth-demo-app</module>
